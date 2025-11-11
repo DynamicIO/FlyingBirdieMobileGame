@@ -1,18 +1,46 @@
 {
   "name": "flyingbirdiemobile",
+  "displayName": "Flying Birdie",
   "version": "1.0.0",
+  "description": "An addictive bird flying mobile game for iOS and Android",
   "main": "index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "expo": "~54.0.23",
+    "expo-asset": "^12.0.9",
+    "expo-av": "^16.0.7",
+    "expo-file-system": "^19.0.17",
+    "expo-gl": "^16.0.7",
+    "expo-gl-cpp": "^11.4.0",
+    "expo-haptics": "^15.0.7",
     "expo-status-bar": "~3.0.8",
     "react": "19.1.0",
-    "react-native": "0.81.5"
+    "react-native": "0.81.5",
+    "react-native-canvas": "^0.1.40",
+    "react-native-webview": "^13.16.0"
   },
+  "devDependencies": {
+    "@babel/core": "^7.20.0"
+  },
+  "keywords": [
+    "mobile",
+    "game",
+    "flying",
+    "bird",
+    "arcade",
+    "react-native",
+    "expo",
+    "ios",
+    "android"
+  ],
+  "author": "Dynamic.IO",
+  "license": "MIT",
   "private": true
 }

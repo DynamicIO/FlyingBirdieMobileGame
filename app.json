@@ -1,29 +1,46 @@
 {
   "expo": {
-    "name": "FlyingBirdieMobile",
-    "slug": "FlyingBirdieMobile",
+    "name": "Flying Birdie",
+    "slug": "flying-birdie-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/bird.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/bird.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#87CEEB"
     },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.flyingbirdie.mobile",
+      "infoPlist": {
+        "UIRequiresFullScreen": true
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/bird.png",
+        "backgroundColor": "#87CEEB"
       },
+      "package": "com.flyingbirdie.mobile",
+      "permissions": [],
       "edgeToEdgeEnabled": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/bird.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "flying-birdie-mobile"
+      }
     }
   }
 }
