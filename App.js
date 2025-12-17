@@ -5,9 +5,10 @@ import * as Haptics from 'expo-haptics';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-const BIRD_SIZE = 50;
+const BIRD_SIZE = 58;
 const PIPE_WIDTH = 60;
 const PIPE_GAP = 220;
+const GROUND_HEIGHT = 80;
 const GRAVITY = 0.6;
 const FLAP_STRENGTH = -12;
 const GAME_SPEED = 3;
@@ -137,9 +138,26 @@ export default function App() {
     gameStateRef.current = 'playing';
   };
 
+  const goToMenu = () => {
+    triggerLightHaptic();
+    stopGameLoop();
+
+    const startY = SCREEN_HEIGHT / 2 - 150;
+    setBirdPosition(startY);
+    birdPositionRef.current = startY;
+    birdVelocity.current = 0;
+
+    setScore(0);
+    scoreRef.current = 0;
+    setPipes([]);
+
+    setGameState('start');
+    gameStateRef.current = 'start';
+  };
+
   const createPipe = (xPosition) => {
     const minHeight = 120;
-    const maxHeight = SCREEN_HEIGHT - PIPE_GAP - minHeight - 100;
+    const maxHeight = SCREEN_HEIGHT - PIPE_GAP - minHeight - (GROUND_HEIGHT + 20);
     const topHeight = Math.random() * (maxHeight - minHeight) + minHeight;
     
     return {
@@ -197,7 +215,7 @@ export default function App() {
     birdVelocity.current += GRAVITY;
     const newBirdPosition = birdPositionRef.current + birdVelocity.current;
     
-    const groundY = SCREEN_HEIGHT - 80 - BIRD_SIZE;
+    const groundY = SCREEN_HEIGHT - GROUND_HEIGHT - BIRD_SIZE;
     if (newBirdPosition >= groundY) {
       endGame();
       return;
@@ -307,7 +325,9 @@ export default function App() {
                   {
                     left: pipe.x,
                     top: pipe.bottomY,
-                    height: SCREEN_HEIGHT - pipe.bottomY - 80,
+                    // Intentionally extend behind the ground so we never get a visible gap
+                    // on devices where layout/DIMENSIONS rounding differs slightly.
+                    height: SCREEN_HEIGHT - pipe.bottomY,
                   }
                 ]}
               >
@@ -394,6 +414,15 @@ export default function App() {
       {gameState === 'gameOver' && (
         <View style={styles.overlay}>
           <View style={styles.menuBox}>
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={goToMenu}
+              accessibilityRole="button"
+              accessibilityLabel="Return to main menu"
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Text style={styles.homeButtonIcon}>🏠</Text>
+            </TouchableOpacity>
             <Text style={styles.gameOverTitle}>Game Over!</Text>
             <Text style={styles.finalScore}>Score: {score}</Text>
             {score >= highScore && score > 0 && (
@@ -424,7 +453,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   ground: {
-    height: 80,
+    height: GROUND_HEIGHT,
     backgroundColor: '#8B4513',
   },
   grass: {
@@ -502,6 +531,23 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 10,
     elevation: 10,
+  },
+  homeButton: {
+    position: 'absolute',
+    top: 16,
+    left: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#ECF0F1',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(44, 62, 80, 0.15)',
+  },
+  homeButtonIcon: {
+    fontSize: 20,
+    lineHeight: 22,
   },
   title: {
     fontSize: 48,
